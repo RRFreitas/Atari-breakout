@@ -66,7 +66,7 @@ class Partida():
             Leitor de mapas
         """
         mapa_processado = []
-        mapa = open(DIRETORIO + "\mapas\mapa{}.txt".format(n))
+        mapa = open(DIRETORIO + "/mapas/mapa{}.txt".format(n))
         linhas = int(mapa.readline())
         l = int(mapa.readline()) # Largura padrão
         a = int(mapa.readline()) # Altura padrão
@@ -134,14 +134,26 @@ class Partida():
                 self.bola.rect.x += 8 # margem para não bugar
             self.bola.change_direction_y()
 
+    def check_ball_loss(self):
+        if self.bola.loss():
+            died = self.jogador.die()
+            self.bola.pos_initial()
+            self.bola.direction_y = -1
+            if died:
+                print("morreu")
+                self.jogador.velocidade = 0
+                self.bola.velocidade = 0
+                self.jogador.posicao_inicial()
+
     def update(self, janela):
         """
             A cada tick da partida atualiza jogador, blocos e gráficos
         """
+        self.check_ball_loss()
+        self.BOLA_GROUP.update()
+        self.JOGADOR_GROUP.update()
         self.check_player_colision()
         self.check_block_colision()
-        self.JOGADOR_GROUP.update()
-        self.BOLA_GROUP.update()
         self.BLOCOS_GROUP.update()
         self.update_graphics(janela)
         self.CLOCK.tick(60)

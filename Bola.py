@@ -22,6 +22,10 @@ class Bola(pygame.sprite.Sprite):
         self.direction_x = choice([-1, 1])
         self.direction_y = -1
 
+    def pos_initial(self):
+        self.rect.x = self.__initialposition_position[0]
+        self.rect.y = self.__initialposition_position[1]
+
     def change_direction_x(self):
         """
             Inverte a direção X
@@ -40,12 +44,8 @@ class Bola(pygame.sprite.Sprite):
         """
         self.rect.y += self.direction_y * self.velocidade
         self.rect.x += self.direction_x * self.velocidade
-
         if self.rect.y <= 0:
             self.rect.y = 0
-            self.change_direction_y()
-        elif self.rect.y >= ALTURA_TELA - self.image.get_height():
-            self.rect.y = ALTURA_TELA - self.image.get_height()
             self.change_direction_y()
         if self.rect.x <= 0:
             self.rect.x = 0
@@ -53,6 +53,9 @@ class Bola(pygame.sprite.Sprite):
         elif self.rect.x >= LARGURA_TELA - self.image.get_width():
             self.rect.x = LARGURA_TELA - self.image.get_width()
             self.change_direction_x()
+    
+    def loss(self):
+        return self.rect.y >= ALTURA_TELA - self.image.get_height()
 
     def update(self):
         self.move()
