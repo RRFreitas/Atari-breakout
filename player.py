@@ -48,8 +48,7 @@ class player(pygame.sprite.Sprite):
         if self.rect.x + self.velocidade <= LARGURA_TELA - self.image.get_width() + 3:
             self.rect.x += self.velocidade
 
-    def update(self, velocidade = 5):# moving the player
-        self.velocidade = velocidade 
+    def update(self):# moving the player
         if pygame.key.get_pressed()[pygame.K_LEFT]:
             self.move_left()
         if pygame.key.get_pressed()[pygame.K_RIGHT]:
